@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description"
+        content="INNOVATIA — Machine Magnets x ISTE event scoring dashboard. Track team marks across rounds with real-time sync.">
+    <meta name="theme-color" content="#dc2626">
+    <title>INNOVATIA | Live Scoring Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+    <!-- ─── Event Banner ────────────────────────── -->
+    <div class="event-banner">
+        <div class="container">
+            <h1 class="event-title">INNOVATIA</h1>
+            <p class="event-tagline">Step Up, Stand Out, and Pitch Your Vision</p>
+        </div>
+    </div>
+
+    <!-- ─── Header Controls ─────────────────────── -->
+    <header>
+        <div class="container">
+            <div class="search-box">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Search team name..." autocomplete="off">
+                <button class="search-clear" id="searchClear" style="display:none;">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+
+            <div class="controls-row">
+                <div class="filter-bar" id="roundFilters">
+                    <button class="filter-btn active" data-round="total">Total</button>
+                    <button class="filter-btn" data-round="1">Round 1</button>
+                    <button class="filter-btn" data-round="2">Round 2</button>
+                    <button class="filter-btn" data-round="3">Round 3</button>
+                </div>
+                <button class="sort-btn" id="sortToggle" title="Toggle sort order">
+                    <i data-lucide="arrow-down-wide-narrow" id="sortIcon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ─── Main Content ────────────────────────── -->
+    <main class="container">
+        <div class="stats-bar" id="statsBar">
+            <span id="teamCount">0 Teams</span>
+            <div class="stats-right">
+                <span id="syncIndicator" class="sync-dot" title="Live sync active"></span>
+                <span id="sortLabel" class="sort-label-text">Highest First</span>
+            </div>
+        </div>
+
+        <div id="teamList" class="team-list">
+            <div class="loading-state" id="loadingState">
+                <div class="spinner"></div>
+                <span>Loading teams...</span>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display:none;">
+            <i data-lucide="users" class="empty-icon"></i>
+            <h3>No teams yet</h3>
+            <p>Admin can add teams using the <strong>+</strong> button.</p>
+        </div>
+    </main>
+
+    <!-- ─── Admin FAB ───────────────────────────── -->
+    <div class="fab-row" id="fabRow">
+        <button class="fab fab-admin" id="adminToggleBtn" title="Admin Login">
+            <i data-lucide="shield" id="adminIcon"></i>
+        </button>
+        <button class="fab fab-add" id="addTeamBtn" title="Add new team" style="display:none;">
+            <i data-lucide="plus"></i>
+        </button>
+    </div>
+
+    <!-- ─── Modal Overlay ───────────────────────── -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add Team</h2>
+                <button class="modal-close" id="modalClose"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Dynamic content -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── Toast Container ─────────────────────── -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ─── Confirm Dialog ──────────────────────── -->
+    <div class="confirm-overlay" id="confirmOverlay">
+        <div class="confirm-dialog">
+            <div class="confirm-icon"><i data-lucide="alert-triangle"></i></div>
+            <h3 id="confirmTitle">Are you sure?</h3>
+            <p id="confirmMessage">This action cannot be undone.</p>
+            <div class="confirm-actions">
+                <button class="btn btn-ghost" id="confirmCancel">Cancel</button>
+                <button class="btn btn-danger" id="confirmOk">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
