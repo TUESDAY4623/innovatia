@@ -376,11 +376,16 @@ function renderTeams() {
             return `<span class="score-chip ${isActive ? 'highlight' : ''}">R${r}: ${formatScore(val)}</span>`;
         }).join('');
 
-        // Delete button only in admin mode
-        const deleteBtn = isAdminMode ? `
+        // Action buttons only in admin mode
+        const actionBtns = isAdminMode ? `
+            <div class="card-actions">
+                <button class="btn-icon edit" data-id="${team._id}" data-name="${escapeHtml(team.name)}" title="Edit marks">
+                    <i data-lucide="pencil"></i>
+                </button>
                 <button class="btn-icon delete" data-id="${team._id}" data-name="${escapeHtml(team.name)}" title="Delete team">
                     <i data-lucide="trash-2"></i>
-                </button>` : '';
+                </button>
+            </div>` : '';
 
         card.innerHTML = `
             <div class="rank-badge ${getRankClass(rank)}">${rank}</div>
@@ -389,12 +394,7 @@ function renderTeams() {
                 <div class="team-scores">${roundChips}</div>
             </div>
             <div class="main-score ${mainScore === null || mainScore === undefined ? 'null-score' : ''}">${currentRound === 'total' ? (mainScore || 0) : formatScore(mainScore)}</div>
-            <div class="card-actions">
-                <button class="btn-icon edit" data-id="${team._id}" data-name="${escapeHtml(team.name)}" title="Edit marks">
-                    <i data-lucide="pencil"></i>
-                </button>
-                ${deleteBtn}
-            </div>
+            ${actionBtns}
         `;
 
         teamList.appendChild(card);
@@ -403,16 +403,15 @@ function renderTeams() {
     // Init icons
     lucide.createIcons({ nodes: teamList.querySelectorAll('.team-card') });
 
-    // Edit — always available
-    teamList.querySelectorAll('.btn-icon.edit').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            openEditModal(btn.dataset.id, btn.dataset.name);
-        });
-    });
-
-    // Delete — admin only
+    // Edit & Delete — admin only
     if (isAdminMode) {
+        teamList.querySelectorAll('.btn-icon.edit').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openEditModal(btn.dataset.id, btn.dataset.name);
+            });
+        });
+
         teamList.querySelectorAll('.btn-icon.delete').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
